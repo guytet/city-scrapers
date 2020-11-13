@@ -2,6 +2,7 @@ import re
 from city_scrapers_core.constants import NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
+import w3lib.html as w3
 
 
 class ChiSsa20Spider(CityScrapersSpider):
@@ -11,36 +12,33 @@ class ChiSsa20Spider(CityScrapersSpider):
     start_urls = ["https://www.mpbhba.org/business-resources/"]
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-        """
 
-#        for h3 in response.xpath("//h3").getall():
-#            for elem in h3:
-#                print(ElementTree.tostring(elem))
-#               #print(h3.xpath("following-sibling"))
-#               #print(h3.xpath("./text()"))
+        h2 = response.xpath(
+             "//h2[contains(text(), 'SPECIAL SERVICE AREAS')]/following-sibling::*"
+             ).getall()
 
-        for h3 in response.xpath("//h3"):
-           entry_str = h3.xpath("./text()").extract_first()
-           if entry_str and "ssa meetings" in entry_str.lower():
-              print(h3)
-           
-#        h3 = response.xpath("//h3")
-#        for entry_key, entry in enumerate(h3):
-#            entry_str = entry.xpath("./text()").extract_first()
+        print('!!!!!!!!')
 
-#        h3 = response.xpath("//h3")
-#        for entry_key, entry in enumerate(h3):
-#            entry_str = entry.xpath("./text()").extract_first()
+        for list_index, list_line in enumerate(h2):
+            if 'ssa meetings' in list_line.lower():
+                del h2[:list_index]
 
-#            if entry_str and  "ssa meetings" in entry_str.lower():
-#                    print(entry.data)
+        for list_index, list_line in enumerate(h2):
+            if 'ssa 64' in list_line.lower():
+                del h2[list_index:]
+
+        for item in h2:
+           print(w3.remove_tags(item))
+
+        print('!!!!!!!!')
+
+                #print(w3.remove_tags(entry) + '\n')
+
 #                    meeting = Meeting(
 #                    title=self._parse_title(entry),
 #                    description=self._parse_description(entry),
 #                    classification=self._parse_classification(entry),
-#                    #start=self._parse_start(entry),
+#                     start=self._parse_start(entry),
 #                    end=self._parse_end(entry),
 #                    all_day=self._parse_all_day(entry),
 #                    time_notes=self._parse_time_notes(entry),
@@ -50,25 +48,6 @@ class ChiSsa20Spider(CityScrapersSpider):
 #                    )
 
  
-#        h3 = response.xpath("//h3")
-#        for entry_key, entry in enumerate(h3):
-#            entry_str = entry.xpath("./text()").extract_first()
-#
-#            if entry_str and  "ssa meetings" in entry_str.lower():
-#                    print(entry.data)
-#                    meeting = Meeting(
-#                    title=self._parse_title(entry),
-#                    description=self._parse_description(entry),
-#                    classification=self._parse_classification(entry),
-#                    #start=self._parse_start(entry),
-#                    end=self._parse_end(entry),
-#                    all_day=self._parse_all_day(entry),
-#                    time_notes=self._parse_time_notes(entry),
-#                    location=self._parse_location(entry),
-#                    links=self._parse_links(entry),
-#                    source=self._parse_source(response),
-#                    )
-
 #                    meeting["status"] = self._get_status(meeting)
 #                    meeting["id"] = self._get_id(meeting)
 
@@ -90,7 +69,8 @@ class ChiSsa20Spider(CityScrapersSpider):
      #   """Parse start datetime as a naive datetime object."""
         #if "SSA 20" in item.xpath("following-sibling::p/strong/text()").extract():
         #    return True
-        return item
+
+        return None
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
