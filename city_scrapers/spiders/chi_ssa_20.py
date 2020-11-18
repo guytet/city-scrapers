@@ -2,6 +2,7 @@ import re
 from city_scrapers_core.constants import NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.parser import parse as detect_date 
 import w3lib.html as w3
 
 
@@ -27,31 +28,27 @@ class ChiSsa20Spider(CityScrapersSpider):
             if 'ssa 64' in list_line.lower():
                 del h2[list_index:]
 
-        for item in h2:
-           print(w3.remove_tags(item))
+        for entry in h2:
+                    print('now passsing', w3.remove_tags(entry))
+                    entry = w3.remove_tags(entry)
 
-        print('!!!!!!!!')
 
-                #print(w3.remove_tags(entry) + '\n')
-
-#                    meeting = Meeting(
+                    meeting = Meeting(
 #                    title=self._parse_title(entry),
 #                    description=self._parse_description(entry),
 #                    classification=self._parse_classification(entry),
-#                     start=self._parse_start(entry),
+                    start=self._parse_start(entry),
 #                    end=self._parse_end(entry),
 #                    all_day=self._parse_all_day(entry),
 #                    time_notes=self._parse_time_notes(entry),
 #                    location=self._parse_location(entry),
 #                    links=self._parse_links(entry),
 #                    source=self._parse_source(response),
-#                    )
-
- 
+                    )
 #                    meeting["status"] = self._get_status(meeting)
 #                    meeting["id"] = self._get_id(meeting)
 
-#            yield meeting
+#        yield meeting
 
     def _parse_title(self, item):
         """Parse or generate meeting title."""
@@ -65,12 +62,16 @@ class ChiSsa20Spider(CityScrapersSpider):
         """Parse or generate classification from allowed options."""
         return NOT_CLASSIFIED
 
-    def _parse_start(self, item):
-     #   """Parse start datetime as a naive datetime object."""
-        #if "SSA 20" in item.xpath("following-sibling::p/strong/text()").extract():
-        #    return True
+    def _parse_start(self, item, fuzzy=False):
+        try:
+            detect_date(item, fuzzy=fuzzy)
+            #return True
+            print("Found a date")
 
-        return None
+        except ValueError:
+            #return False
+            print("Could not find a date")
+
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
