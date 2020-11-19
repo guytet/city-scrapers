@@ -29,7 +29,7 @@ class ChiSsa20Spider(CityScrapersSpider):
                 del h2[list_index:]
 
         for entry in h2:
-                    print('now passsing', w3.remove_tags(entry))
+                    print(w3.remove_tags(entry))
                     entry = w3.remove_tags(entry)
 
 
