@@ -2,9 +2,7 @@ import re
 from city_scrapers_core.constants import NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-from dateutil.parser import parse as detect_date 
 import w3lib.html as w3
-
 
 class ChiSsa20Spider(CityScrapersSpider):
     name = "chi_ssa_20"
@@ -63,15 +61,7 @@ class ChiSsa20Spider(CityScrapersSpider):
         return NOT_CLASSIFIED
 
     def _parse_start(self, item, fuzzy=False):
-        try:
-            detect_date(item, fuzzy=fuzzy)
-            #return True
-            print("Found a date")
-
-        except ValueError:
-            #return False
-            print("Could not find a date")
-
+        return None
 
     def _parse_end(self, item):
         """Parse end datetime as a naive datetime object. Added by pipeline if None"""
