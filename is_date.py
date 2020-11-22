@@ -43,14 +43,15 @@ li=['2019 SSA Meetings',
 'Wednesday, July 10, 9 a.m. Beverly Bank &amp; Trust, 10258 S. Western Ave.'
 ]
 
+# option for joining the three list comprehensions bellow to one line,
+# this of course makes for quite a complicated line
+#li = [item.split("Bev", 1)[0].split(": ", 1)[-1] for item in li if "Meetings" not in item]                
 
 # look into generator comprehenstion
-# last two actions look into 'extrac'
-# option for joining list comprehensions
-#`[item.split("Bev", 1)[0].split(": ", 1)[-1] for item in li if "Meetings" not in item]`                   
-li = [ item for item in li if "Meetings" not in item ]
-li = [ item.split('Bev', 1)[0] for item in li ]
-li = [ item.split(': ', 1)[-1] for item in li ]
+# last two actions look into 'extract`'
+#li = [ item for item in li if "Meetings" not in item ]
+#li = [ item.split('Bev', 1)[0] for item in li ]
+#li = [ item.split(': ', 1)[-1] for item in li ]
 
 print(li)
 
