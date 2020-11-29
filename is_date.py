@@ -49,9 +49,11 @@ li=['2019 SSA Meetings',
 
 # look into generator comprehenstion
 # last two actions look into 'extract`'
-#li = [ item for item in li if "Meetings" not in item ]
-#li = [ item.split('Bev', 1)[0] for item in li ]
-#li = [ item.split(': ', 1)[-1] for item in li ]
+#  - looked into 'extract' - could not find a python
+#    method named 'extract'
+li = [ item for item in li if "Meetings" not in item ]
+li = [ item.split('Bev', 1)[0] for item in li ]
+li = [ item.split(': ', 1)[-1] for item in li ]
 
 print(li)
 
