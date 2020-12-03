@@ -1,8 +1,9 @@
+import re
+from datetime import datetime
+
 from city_scrapers_core.constants import NOT_CLASSIFIED
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
-import re
-from datetime import datetime
 
 class ChiSsa20Spider(CityScrapersSpider):
     name = "chi_ssa_20"
@@ -16,52 +17,23 @@ class ChiSsa20Spider(CityScrapersSpider):
 
     def parse(self, response):
 
-        base = response.xpath(
-               "//*[self::p or self::strong or self::h3]/text()").getall()
+        for item in response.css("body p"): 
 
-        # remove whitespaces, convert all to lowercase
-        base = [ re.sub(r"\s+", " ", item).lower() for item in base ]
-
-        # remove lines from our section backward 
-        # "ssa meetings" is where our interest begins
-        for index, line in enumerate(base):
-            if 'ssa meetings' in line:
-                del base[:index]
-
-        # remove lines from our section onward
-        # in this case, "ssa 64" and following entries
-        # we don't care for. 
-        for index, line in enumerate(base):
-            if 'ssa 64' in line:
-                del base[index:]
- 
-
-        if self.location['name'].lower() + ' ' + self.location['address'].lower() not in base:
-            print('address has changed')
-
-        for item in base: 
-            print('now passing', item)
-
-            # don't pass empty lines to methods
-            if re.match(r'^\s*$', item):
-                continue
-            
             start = self._parse_start(item)
             if not start:
                 continue
 
-
             meeting = Meeting(
-              title=self._parse_title(item),
-              description=self._parse_description(item),
-              classification=self._parse_classification(item),
+              title="SSA 20",
               start=start,
-              end=self._parse_end(item),
-              all_day=self._parse_all_day(item),
+              description="",
+              classification="NOT_CLASSIFIED",
+              end=None,
+              all_day=False,
               time_notes=self._parse_time_notes(item),
               location=self.location,
               links=self._parse_links(item),
-              source=self._parse_source(response),
+              source=response.url
             )
 
             meeting["status"] = self._get_status(meeting)
@@ -70,57 +42,23 @@ class ChiSsa20Spider(CityScrapersSpider):
             yield meeting
 
 
-    def _parse_title(self, item):
-        """Parse or generate meeting title."""
-        return "SSA 20"
-
-    def _parse_description(self, item):
-        """Parse or generate meeting description."""
-        return ""
-
-    def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
-        return NOT_CLASSIFIED
-
     def _parse_start(self, item):
+        print('now getting', item)
   
-         # Year:
-         # Catches the line '2019 ssa meetings' as it's the only
-         # one with four digits starting it, then extracts those
-         # four digits with re.match() to provide us with a date
-         # integer we can work with.
-         if re.match('^\D*\d{4}\D*$', item):
-             year = re.match('^\d{4}', item)[0]
+#         if re.match('^\D*\d{4}\D*$', item):
+#             year = re.match('^\d{4}', item)[0]
 
-         # Date:
-         # Now, We only care for lines containing the dates,
-         # e.g "wednesday, june 5, 9 a.m."
-         # 'beverly' will remove lines containing the location
-         # 'ssa' will remove other lines we don't need
-         if not any(word in item for word in ['beverly', 'ssa']):
+#         if not any(word in item for word in ['beverly', 'ssa']):
+#
+#             item = re.sub(r'([,\.])', '', item).strip()
+#             ready_date = item + ' ' + str(self.year)
+#             date_object=datetime.strptime(ready_date, "%A %B %d %I %p %Y")
+#             return(date_object)
 
-                # Remove commas and dots in order to nicely format for
-                # strptime()
-                # strip() is for final whitespace removal
-                # if no strip(), strptime() will reject the string as not
-                # formatted sufficiently
-                # Finally, concat date and year strings and pass to strptime()
-                item = re.sub(r'([,\.])', '', item).strip()
-                ready_date = item + ' ' + str(self.year)
-                date_object=datetime.strptime(ready_date, "%A %B %d %I %p %Y")
-                return(date_object)
-
-    def _parse_end(self, item):
-        """Parse end datetime as a naive datetime object. Added by pipeline if None"""
-        return None
 
     def _parse_time_notes(self, item):
         """Parse any additional notes on the timing of the meeting"""
         return ""
-
-    def _parse_all_day(self, item):
-        """Parse or generate all-day status. Defaults to False."""
-        return False
 
 
     def _parse_location(self, item):
@@ -134,6 +72,36 @@ class ChiSsa20Spider(CityScrapersSpider):
         """Parse or generate links."""
         return [{"href": "", "title": ""}]
 
-    def _parse_source(self, response):
-        """Parse or generate source."""
-        return response.url
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#        if (self.location['name'].lower() + ' ' + 
+#        self.location['address'].lower()) not in base:
+#            print('address has changed')
+
+#            if re.match(r'^\s*$', item):
+#                continue
+
+#        for index, line in enumerate(response):
+#            if 'ssa meetings' in line:
+#                del base[:index]
+#
+#        for index, line in enumerate(base):
+#            if 'ssa 64' in line:
+#                del base[index:]
+
+#        base = [ re.sub(r"\s+", " ", item).lower() for item in base ]
+
+#        base = response.xpath(
+#               "//*[self::p or self::strong or self::h3]/text()").getall()
