@@ -43,7 +43,9 @@ class ChiSsa20Spider(CityScrapersSpider):
 
 
     def _parse_start(self, item):
-        print('now getting', item)
+        items_lists = item.css("*::text").getall()
+        items_str  = "".join(items_lists))
+        print(items_str)
   
 #         if re.match('^\D*\d{4}\D*$', item):
 #             year = re.match('^\d{4}', item)[0]
