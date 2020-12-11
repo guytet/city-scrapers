@@ -44,7 +44,7 @@ class ChiSsa20Spider(CityScrapersSpider):
 
     def _parse_start(self, item):
         items_lists = item.css("*::text").getall()
-        items_str  = "".join(items_lists))
+        items_str  = "".join(items_lists)
         print(items_str)
   
 #         if re.match('^\D*\d{4}\D*$', item):

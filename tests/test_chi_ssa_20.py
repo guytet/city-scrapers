@@ -31,8 +31,8 @@ def test_tests():
 Uncomment below
 """
 
-# def test_title():
-#     assert parsed_items[0]["title"] == "EXPECTED TITLE"
+def test_title():
+   assert parsed_items[0]["title"] == "SSA 20"
 
 
 # def test_description():
