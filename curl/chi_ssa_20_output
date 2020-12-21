@@ -1,0 +1,41 @@
+﻿import time
+
+lines=[
+"We are home to a variety of unique merchants and a blossoming restaurant and craft beer scene. These businesses, along with an abundance of professionals and service providers, make Beverly Hills/Morgan Park a vibrant hub of activity on the city’s South side.",
+
+"Our commercial districts are supported by engaged and educated residents who are committed to shopping, dining and buying locally. Businesses in Beverly Hills/Morgan Park also bring customers from across the Chicagoland area and beyond. They are  drawn here by attractions including the Beverly Arts Center, the Morgan Park Sports Center, the South Side Irish St. Patrick’s Day Parade and the Beverly Art Walk.",
+
+"Easily accessible via CTA rail and bus service, major interstates and the Metra commuter line, Beverly Hills/Morgan Park is located 20 minutes south of Chicago’s Loop and 20 minutes from Midway International Airport.",
+
+"Want to learn more about the consumers living in Beverly Hills/Morgan Park? The study, provided by Esri, uses 67 unique market segments to analyze our neighborhood.",
+
+"For more than 28 years, the Special Service Area (SSA) program in Chicago has provided communities with the financial means to create, maintain and manage competitive commercial districts.",
+                                                                                                                               "SSAs are local property tax districts that provide funding for enhanced services and programs—such as landscaping, sidewalk cleaning and debris removal, sidewalk snow removal, area branding and neighborhood identification—in communities across Chicago. The Chicago Department of Planning and Development (DPD) contracts with local nonprofits, typically chambers of commerce or business associations, as service providers to administer the program. The mayor appoints a local commission made up of SSA property owners and tenants to oversee the service provider and determine SSA services and budgets annually.",
+                                                                                                                               "SSA funds are controlled locally, must stay in the community and must be spent on services that achieve the mission of the particular SSA. Similar SSA programs operate in more than 50 areas throughout the city of Chicago and have been credited with enhancing neighborhood vitality.",
+                                                                                                                               "The MPBHBA is the service provider for both SSA 20 (Western Avenue) and SSA 64 (Walden Parkway). In this role, we work with each commission to determine and coordinated needed services. These tasks may include hiring subcontractors to fulfill the SSA services, We generate program reports to the DPD, SSA commissions, local aldermen and the community. We also assist with the recruitment of SSA commissioners, who determine the SSA budgets and services annually.",
+
+"SSA 20: Wednesday, June 5, 9 a.m. Beverly Bank & Trust, 10258 S. Western Ave.",
+
+"Wednesday, July 10, 9 a.m. Beverly Bank & Trust, 10258 S. Western Ave.",
+
+"SSA 64: Monday, July 8, 9 a.m.Markland Hubbard, 1739 W. 99th St.",
+
+"SSA 20 2017 audit",
+
+"SSA 64 2017 audit",
+
+"SSA 20 1st quarter 2018 meeting minutes",
+
+"SSA 64 1st quarter 2018 meeting minutes",
+
+"SSA 20 1st quarter 2019 meeting minutes",
+
+"SSA 64 1st quarter 2019 meeting minutes",
+
+"10827 S. Western Ave.Chicago, Illinois 60643",
+
+"PHONE: 773.779.2530FAX: 773.779.0436",
+]
+
+for item in lines:
+    print(item, '\n')

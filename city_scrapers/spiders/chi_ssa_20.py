@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from city_scrapers_core.constants import NOT_CLASSIFIED
+from city_scrapers_core.constants import COMMISSION
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 
@@ -9,25 +9,28 @@ class ChiSsa20Spider(CityScrapersSpider):
     name = "chi_ssa_20"
     agency = "Chicago Special Service Area #20 South Western Avenue"
     timezone = "America/Chicago"
-    start_urls = ["https://www.mpbhba.org/business-resources/"]
+    #start_urls = ["https://www.mpbhba.org/business-resources/"]
+    start_urls = ["http://localhost:8000"]
     location = {
-        "name": "Beverly Bank & Trust,",
-        "address": "10258 s. Western ave.",
+        "name": "Beverly Bank & Trust",
+        "address": "10258 S Western Ave, Chicago, IL 60643",
     }
 
     def parse(self, response):
 
-        for item in response.css("body p"): 
+        for item in response.xpath("//*[self::p or self::a[@href]]"):
+        #for item in response.xpath("//*[self::p or self::a]"):
+        #for item in response.xpath("//*[self::a[@href]]"):
 
             start = self._parse_start(item)
             if not start:
                 continue
 
             meeting = Meeting(
-              title="SSA 20",
+              title="Commision",
               start=start,
-              description="",
-              classification="NOT_CLASSIFIED",
+              description=self._parse_description(item),
+              classification=COMMISSION,
               end=None,
               all_day=False,
               time_notes=self._parse_time_notes(item),
@@ -43,9 +46,11 @@ class ChiSsa20Spider(CityScrapersSpider):
 
 
     def _parse_start(self, item):
-        items_lists = item.css("*::text").getall()
-        items_str  = "".join(items_lists)
-        print(items_str)
+        #items_lists = item.css("*::text").getall()
+        #items_lists = item.css("*::text")
+        #items_str  = "".join(items_lists)
+        #print(items_str, '\n')
+        print(item, '\n')
   
 #         if re.match('^\D*\d{4}\D*$', item):
 #             year = re.match('^\d{4}', item)[0]
@@ -86,6 +91,7 @@ class ChiSsa20Spider(CityScrapersSpider):
 
 
 
+#        for item in response.css("body p or body a"): 
 
 
 #        if (self.location['name'].lower() + ' ' + 
